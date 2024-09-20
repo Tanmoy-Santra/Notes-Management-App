@@ -188,7 +188,7 @@ const Navbar = () => {
   const handleLogout = () => {
     localStorage.removeItem('authToken'); // Remove token on logout
     dispatch(removeUserData()); // Clear user data from Redux store
-    alert("Press ok for Logged out")
+    alert("Press ok for Log out")
     navigate("/"); // Redirect to home page or login page
   };
 
