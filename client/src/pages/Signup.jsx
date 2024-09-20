@@ -22,12 +22,12 @@ const Signup = () => {
  
   const registerUser = async (e) => {
     e.preventDefault();
-    setIsLoading(true)
     // Validate if all required fields are filled
     if (!firstName || !lastName || !userBio || !userEmail || !userMobile || !userName || !userPassword || !profileImage) {
-      toast.error("Please fill out all fields.");
+      alert("Please fill out all fields.");
       return;
     }
+    setIsLoading(true)
   
     const formData = new FormData();
     formData.append("firstName", firstName);
@@ -92,21 +92,22 @@ const Signup = () => {
           >
             <div className="flex flex-col items-center justify-center pb-6 pt-5 bg-transparent">
               <p className="mb-2 text-sm text-gray-500">
-                <span className="font-semibold bg-buttoncolor text-textcolor p-1 rounded-lg border">
+                {/* <span className="font-semibold bg-buttoncolor text-textcolor p-1 rounded-lg border">
                   Upload
-                </span>
+                </span> */}
               </p>
               <input
                 type="file"
                 placeholder="File"
                 accept="image/*"
-                required
                 id="dropzone-file"
                 onChange={(e) => {
                   setProfilePreviewImage(URL.createObjectURL(e.target.files[0]));
                   setProfileImage(e.target.files[0]);
                 }}
-                className="hidden"
+                required
+                // className="hidden"
+                visibility=" hidden"
               />
             </div>
           </label>
@@ -120,6 +121,7 @@ const Signup = () => {
               name="firstName"
               className="w-full rounded-lg border p-2 focus:border-blue-500 focus:outline-none bg-transparent"
               placeholder="First Name"
+              required
               onChange={(e) => setFirstName(e.target.value)}
             />
           </div>
@@ -131,6 +133,7 @@ const Signup = () => {
               name="lastName"
               className="w-full rounded-lg border p-2 focus:border-blue-500 focus:outline-none bg-transparent"
               placeholder="Last Name"
+              required
               onChange={(e) => setLastName(e.target.value)}
             />
           </div>
@@ -155,17 +158,20 @@ const Signup = () => {
             name="userEmail"
             className="w-full rounded-lg border p-2 focus:border-blue-500 focus:outline-none bg-transparent"
             placeholder="your.email@example.com"
+            required
             onChange={(e) => setUserEmail(e.target.value)}
           />
         </div>
         <div className="flex flex-col items-start justify-center bg-transparent">
           <label className="font-bold" htmlFor="userMobile">Mobile Number</label>
           <input
-            type="number"
+            type="tel"
             id="userMobile"
             name="userMobile"
             className="w-full rounded-lg border p-2 focus:border-blue-500 focus:outline-none bg-transparent"
             placeholder="0000000000"
+            pattern="^[6-9]\d{9}$"
+            required
             onChange={(e) => setUserMobile(e.target.value)}
           />
         </div>
@@ -177,6 +183,7 @@ const Signup = () => {
             name="userName"
             className="w-full rounded-lg border p-2 focus:border-blue-500 focus:outline-none bg-transparent"
             placeholder="johndoe123"
+            required
             onChange={(e) => setUserName(e.target.value)}
           />
         </div>
@@ -187,7 +194,9 @@ const Signup = () => {
             id="userPassword"
             name="userPassword"
             className="w-full rounded-lg border p-2 focus:border-blue-500 focus:outline-none bg-transparent"
-            placeholder="*********"
+            placeholder="4-10 digit"
+            pattern="^\d{4,}$"
+            required
             onChange={(e) => setUserPassword(e.target.value)}
           />
         </div>
