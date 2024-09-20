@@ -167,6 +167,7 @@ import { MdOutlineFileUpload } from "react-icons/md";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { useDispatch, useSelector } from "react-redux";
 import { removeUserData } from "../Redux/slices/user-slice";
+import { toast } from "react-toastify";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -187,6 +188,7 @@ const Navbar = () => {
   const handleLogout = () => {
     localStorage.removeItem('authToken'); // Remove token on logout
     dispatch(removeUserData()); // Clear user data from Redux store
+    alert("Press ok for Logged out")
     navigate("/"); // Redirect to home page or login page
   };
 

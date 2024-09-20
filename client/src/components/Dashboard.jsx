@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom"; // Import useNavigate
 import Header from '../components/Header';
 import Footer from "../components/Footer";
 import UniversalLoader from "./UniversalLoader";
+import { toast } from "react-toastify";
 
 const Dashboard = () => {
   const user = useSelector((state) => state.user.userData);
@@ -29,8 +30,7 @@ const Dashboard = () => {
           console.error(`Error fetching user ${userId}: `, error.response ? error.response.data : error.message);
           userNamesMap[userId] = "Unknown User"; // Fallback if user fetch fails
         }
-      }
-  
+      }      
       setUserNames(userNamesMap);
     } catch (error) {
       console.log("Error fetching user names: ", error);

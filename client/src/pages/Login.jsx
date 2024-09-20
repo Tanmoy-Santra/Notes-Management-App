@@ -16,7 +16,7 @@ const Login = () => {
 
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
+  // const [isLoading, setIsLoading] = useState(true);
   const loginUser = async (e) => {
     e.preventDefault();
     
@@ -24,23 +24,17 @@ const Login = () => {
       const response = await axios.post(`${import.meta.env.VITE_API_URL}/auth/login`, {
         userEmail,
         userPassword,
-      });
-
-      // Handle successful login
-     // console.log("User Logged in Successfully: ", response.data);
-      dispatch(setUserData(response.data));
-     // console.log(setUserData);
-      
-      toast.success("Logged in Successfully");    
+      });   
      
+      dispatch(setUserData(response.data));      
       navigate("/home"); // Correct navigation call
+      alert("Logged in Successfully")
     } catch (error) {
       // Log and handle error
       console.error("Cannot Login the User: ", error);
       toast.error(error.response?.data?.error || "An error occurred");
     }
   };
-
  
 
   return (

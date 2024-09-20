@@ -18,11 +18,11 @@ const Signup = () => {
   const [userEmail, setUserEmail] = useState("");
   const [userName, setUserName] = useState("");
   const [userPassword, setUserPassword] = useState("");
-
+  const [isLoading,setIsLoading]=useState(false);
  
   const registerUser = async (e) => {
     e.preventDefault();
-  
+    setIsLoading(true)
     // Validate if all required fields are filled
     if (!firstName || !lastName || !userBio || !userEmail || !userMobile || !userName || !userPassword || !profileImage) {
       toast.error("Please fill out all fields.");
@@ -52,7 +52,7 @@ const Signup = () => {
       
   
       // On successful registration
-      toast.success("User registered successfully");
+      alert("User registered successfully");
             
         navigate("/login");
       
@@ -66,6 +66,8 @@ const Signup = () => {
       } else {
         toast.error("Failed to register. Please try again later.");
       }
+    }finally{
+      setIsLoading(false);
     }
   };
   
@@ -192,7 +194,7 @@ const Signup = () => {
         <button
           className="rounded-lg bg-buttoncolor px-5 py-2 font-bold text-white hover:bg-buttonhovercolor"
         >
-          Register
+          {isLoading ? "Processing..." : "Register"}
         </button>
 
         <div className="text-sm">

@@ -3,11 +3,8 @@ import React from "react";
 import Footer from "../components/Footer";
 import Header from '../components/Header';
 import Dashboard from "../components/Dashboard";
-const Home = () => {
-  console.log("into home");
-  
-  return (
-    
+const Home = () => {    
+  return (    
     <div className="h-screen pt-20">
     <Header></Header>
       {/* <Hero /> */}
