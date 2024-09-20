@@ -15,7 +15,7 @@ dotenv.config();
 const MONGO_URL = `mongodb+srv://${process.env.NAME}:${process.env.PASSWORD}@cluster0.xbvrhfr.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 
 const app = express();
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 6969;
 
 app.use(cors());
 app.use(bodyParser.json());
