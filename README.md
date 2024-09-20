@@ -35,7 +35,7 @@ Make sure you have the following installed:
 
 git clone https://github.com/Tanmoy-Santra/Notes-Management-App
 
-### 1. Run the project
+### Run the project
 
 cd Notes-Management-App
 
