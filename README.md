@@ -2,7 +2,10 @@
   <h1><strong><a href="https://notes-management-app-beige.vercel.app/">MyNotes App</a></strong></h1>
 </div>
   
-- A note management app .
+# Notes Management App
+
+This is a full-stack Notes Management application built using the MERN stack. The client side uses Vite with React, and the server side is powered by Express. 
+
 - User friendly interface .
 - Include Login Signup Authentication .
 - With organized Data storage system .
@@ -28,14 +31,22 @@ Make sure you have the following installed:
 - Node.js (version 14 or higher)
 - Git
 
-## Getting Started
-
-Follow these steps to clone and set up the project.
-
 ### 1. Clone the repository
 
 git clone https://github.com/Tanmoy-Santra/Notes-Management-App
+
+### 1. Run the project
+
 cd Notes-Management-App
+
+cd server
+- npm install express multer axios dotenv bcrypt body-parser cloudinary cors dotenv firebase firebase-admin gridfs-stream jsonwebtoken mongodb mongoose multer nodemon
+- nodemon index.js
+
+cd client
+- npm install @heroicons/react @reduxjs/toolkit axios firebase react react-dom react-icons react-redux react-router-dom react-toastify
+- npm run dev
+
 
 # Tools 
 <p>
