@@ -13,13 +13,13 @@ import UniversalLoader from "../components/UniversalLoader";
 const Login = () => {
   const navigate = useNavigate(); // Correctly use useNavigate hook
   const dispatch = useDispatch();
-
+  const [isLoading,setIsLoading]=useState(false);
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
   // const [isLoading, setIsLoading] = useState(true);
   const loginUser = async (e) => {
     e.preventDefault();
-    
+    setIsLoading(true);
     try {
       const response = await axios.post(`${import.meta.env.VITE_API_URL}/auth/login`, {
         userEmail,
@@ -33,6 +33,8 @@ const Login = () => {
       // Log and handle error
       console.error("Cannot Login the User: ", error);
       toast.error(error.response?.data?.error || "An error occurred");
+    }finally{
+      setIsLoading(false);
     }
   };
  
@@ -71,7 +73,7 @@ const Login = () => {
           </div>
         </div>
         <button className="rounded-lg bg-buttoncolor px-5 py-2 font-bold text-white hover:bg-buttonhovercolor w-full" type="submit">
-          Log In
+        {isLoading ? "Processing..." : "Log In"}
         </button>
         <div className="flex items-center justify-between text-sm w-full">
           <p className="">New to FindMyNotes?</p>
