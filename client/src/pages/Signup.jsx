@@ -48,6 +48,8 @@ const Signup = () => {
           "Content-Type": "multipart/form-data",
         },
       });
+      console.log(result);
+      
   
       // On successful registration
       toast.success("User registered successfully");
