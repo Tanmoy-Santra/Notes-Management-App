@@ -1,5 +1,5 @@
 <div align="center">
-  <h1><strong><a href="https://notes-management-app-beige.vercel.app/">Rangmanch</a></strong></h1>
+  <h1><strong><a href="https://notes-management-app-beige.vercel.app/">MyNotes App</a></strong></h1>
 </div>
 
 - A note management app .
@@ -28,7 +28,7 @@
 <img alt="git" src="https://img.shields.io/badge/-Git-F05032?style=flat-square&logo=git&logoColor=white" height="25px"/>
 <img alt="github actions" src="https://img.shields.io/badge/-Github_Actions-2088FF?style=flat-square&logo=github-actions&logoColor=white" height="25px"/>
 <img alt="Firebase" src="https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=white" height="25px"/>
-<img alt="Mongodb" src="https://img.shields.io/badge/Mongodb-FFCA28?style=for-the-badge&logo=mongodb&logoColor=green" height="25px"/>
+<img alt="Mongodb" src="https://img.shields.io/badge/Mongodb-FFFFFF?style=for-the-badge&logo=mongodb&logoColor=green" height="25px"/>
 </p>
 
 
