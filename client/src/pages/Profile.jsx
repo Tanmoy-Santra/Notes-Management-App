@@ -1,14 +1,13 @@
 
 
-
-
 import React, { useEffect, useState } from "react";
-import { FaRegFilePdf } from "react-icons/fa";
+import { FaRegFilePdf, FaShareAlt } from "react-icons/fa"; // Import the share icon
 import { useSelector } from "react-redux";
 import axios from "axios";
 import Header from '../components/Header';
 import Footer from "../components/Footer";
 import UniversalLoader from "../components/UniversalLoader";
+import { toast } from "react-toastify"; // Import toast for notifications
 
 const Profile = () => {
   const user = useSelector((state) => state.user.userData);
@@ -18,27 +17,23 @@ const Profile = () => {
   useEffect(() => {
     const getUserFiles = async () => {
       if (!user || !user._id) {
-        // If user is not defined or userId is not available, return early
         return;
       }
       try {
-        // Retrieve the token from local storage
         const token = localStorage.getItem('authToken');
-
         if (!token) {
           console.error("No authentication token found");
           return;
         }
-        
+
         const result = await axios.get(`${import.meta.env.VITE_API_URL}/notes/user/${user._id}`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
         });
         
-        
         if (result.data && result.data.data) {
-          setUserFiles(result.data.data);  // Safely accessing the data
+          setUserFiles(result.data.data);
         }
       } catch (error) {
         console.error("Error fetching files:", error);
@@ -55,15 +50,26 @@ const Profile = () => {
   function DateTimeExtraction(isoString) {
     const datePart = isoString.split('T')[0];
     const timePart = isoString.split('T')[1].split('.')[0];
-    return `Created on: ${datePart}, ${timePart}`;   
+    return `Created on: ${datePart}, ${timePart}`;
   }
 
+  // Function to copy the note's file link to clipboard
+  const copyToClipboard = (link) => {
+    navigator.clipboard.writeText(link)
+      .then(() => {
+        toast.success("Link copied to clipboard!");
+      })
+      .catch((error) => {
+        toast.error("Failed to copy the link");
+        console.error("Error copying to clipboard:", error);
+      });
+  };
+
   if (!user || !user._id) {
-    // Optionally, render a loading state or redirect if user is not authenticated
     return <p>Loading profile...</p>;
   }
 
-  if (isLoading) {    
+  if (isLoading) {
     return <UniversalLoader />;
   }
 
@@ -97,15 +103,14 @@ const Profile = () => {
           <h1 className="mb-3 text-xl font-black">My Documents:</h1>
           <div className="grid grid-cols-1 gap-5 p-4 sm:grid-cols-2 md:grid-cols-3">
             {userFiles.map((file) => (
-              <a
-                href={file.files} // This URL directly points to the file in MongoDB
-                key={file._id}
-                className="mb-3 flex h-auto max-w-[300px] items-center justify-between gap-10 rounded-xl border border-black p-4 bg-buttoncolor text-textcolor"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <div className="flex flex-row">
-                  <FaRegFilePdf size="50" className="m-2"/>
+              <div key={file._id} className="relative mb-3 flex h-auto max-w-[300px] items-center justify-between gap-10 rounded-xl border border-black p-4 bg-buttoncolor text-textcolor">
+                <a
+                  href={file.files}
+                  className="flex flex-row"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <FaRegFilePdf size="50" className="m-2" />
                   <p className="font-bold flex flex-col">
                     {file.fileName}<br />
                     <span className="text-gray-300 font-semibold text-sm">
@@ -115,8 +120,15 @@ const Profile = () => {
                       {DateTimeExtraction(file.uploadedOn)}
                     </span>
                   </p>
-                </div>
-              </a>
+                </a>
+                {/* Share icon in the top right corner */}
+                <button
+                  className="absolute top-2 right-2"
+                  onClick={() => copyToClipboard(file.files)} // Call function to copy the link
+                >
+                  <FaShareAlt size={20} />
+                </button>
+              </div>
             ))}
           </div>
         </div>

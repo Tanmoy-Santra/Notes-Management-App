@@ -1,13 +1,13 @@
+
 import React, { useEffect, useState } from "react";
-import { FaRegFilePdf } from "react-icons/fa";
+import { FaRegFilePdf, FaShareAlt, FaDownload } from "react-icons/fa"; // Import the share and download icons
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
-
 import Header from '../components/Header';
 import Footer from "../components/Footer";
 import UniversalLoader from "./UniversalLoader";
-import { toast } from "react-toastify";
+import { toast } from "react-toastify"; // Import toast for notifications
 
 const Dashboard = () => {
   const user = useSelector((state) => state.user.userData);
@@ -35,6 +35,26 @@ const Dashboard = () => {
     } catch (error) {
       console.log("Error fetching user names: ", error);
     }
+  };
+
+  // Function to copy the note's bucket link to clipboard
+  const copyToClipboard = (link) => {
+    navigator.clipboard.writeText(link)
+      .then(() => {
+        toast.success("Link copied to clipboard!");
+      })
+      .catch((error) => {
+        toast.error("Failed to copy the link");
+        console.error("Error copying to clipboard:", error);
+      });
+  };
+
+  // Function to handle file download
+  const handleDownload = (fileUrl, fileName) => {
+    const link = document.createElement("a");
+    link.href = fileUrl;
+    link.download = fileName;
+    link.click();
   };
 
   useEffect(() => {
@@ -87,21 +107,21 @@ const Dashboard = () => {
 
   return (
     <>
-     
       <div className="lg:h-screen flex flex-col items-center justify-center lg:flex-row bg-primarybg text-textcolor">
         <div className="h-auto w-full lg:h-full lg:w-[60%]">
           <h1 className="ml-3 mb-3 text-xl font-black">All Notes</h1>
           <div className="grid grid-cols-1 gap-5 p-4 sm:grid-cols-2 md:grid-cols-3">
             {userFiles.map((file) => (
-              <a
-                href={file.files}
-                // href={`http://localhost:6969/files/${file.files}`}
+              <div
                 key={file._id}
-                className="mb-3 flex h-auto max-w-[300px] items-center justify-between gap-10 rounded-xl border border-black p-4 bg-buttoncolor text-textcolor"
-                target="_blank"
-                rel="noopener noreferrer" // Added rel attribute for security
+                className="relative mb-3 flex h-auto max-w-[300px] items-center justify-between gap-10 rounded-xl border border-black p-4 bg-buttoncolor text-textcolor"
               >
-                <div className="flex flex-row">
+                <a
+                  href={file.files}
+                  className="flex flex-row"
+                  target="_blank"
+                  rel="noopener noreferrer" // Added rel attribute for security
+                >
                   <span className="m-2">
                     <FaRegFilePdf size="50" />
                   </span>
@@ -111,13 +131,26 @@ const Dashboard = () => {
                     <span className="text-gray-300 font-semibold text-sm">Created By: {userNames[file.uploadedBy] || "Unknown User"}</span>
                     <span className="text-gray-300 font-semibold text-sm">{DateTimeExtraction(file.uploadedOn)}</span>
                   </div>
-                </div>
-              </a>
+                </a>
+                {/* Share icon in the top right corner */}
+                <button
+                  className="absolute top-2 right-2"
+                  onClick={() => copyToClipboard(file.files)} // Call function to copy link
+                >
+                  <FaShareAlt size={20} />
+                </button>
+                {/* Download icon in the bottom right corner */}
+                <button
+                  className="absolute bottom-2 right-2"
+                  onClick={() => handleDownload(file.files, file.fileName)} // Call function to download
+                >
+                  <FaDownload size={20} />
+                </button>
+              </div>
             ))}
           </div>
         </div>
       </div>
-      
     </>
   );
 };

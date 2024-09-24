@@ -1,8 +1,8 @@
-
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { FaSearch, FaEye, FaRegFilePdf } from "react-icons/fa";
+import { FaSearch, FaEye, FaRegFilePdf, FaShareAlt } from "react-icons/fa";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify"; // Assuming toast is already installed and set up
 
 const SearchBar = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -44,7 +44,7 @@ const SearchBar = () => {
     try {
       for (const userId of uniqueUserIds) {
         if (!userNames[userId]) {
-          const response = await axios.get(`http://localhost:6969/users/${userId}`);
+          const response = await axios.get(`${import.meta.env.VITE_API_URL}/users/${userId}`);
           userNamesMap[userId] = response.data.userName;
         }
       }
@@ -59,6 +59,18 @@ const SearchBar = () => {
     const [datePart, timePart] = isoString.split('T');
     const time = timePart.split('.')[0];
     return `Created on: ${datePart}, ${time}`;
+  };
+
+  // Copy link to clipboard
+  const copyToClipboard = (link) => {
+    navigator.clipboard.writeText(link)
+      .then(() => {
+        toast.success("Link copied to clipboard!");
+      })
+      .catch((error) => {
+        toast.error("Failed to copy the link");
+        console.error("Error copying to clipboard:", error);
+      });
   };
 
   // Show PDF function
@@ -113,12 +125,20 @@ const SearchBar = () => {
                     </span>
                   </p>
                 </div>
-                <button
-                  className="bg-buttoncolor border border-white hover:bg-buttonhovercolor rounded-md p-1"
-                  onClick={() => showPDF(note.files)}
-                >
-                  <FaEye size="24" color="white" />
-                </button>
+                <div className="flex gap-2 ">
+                  <button
+                    className="bg-buttoncolor border border-white hover:bg-buttonhovercolor rounded-sm p-1"
+                    onClick={() => showPDF(note.files)}
+                  >
+                    <FaEye size="24" color="white" />
+                  </button>
+                  <button
+                    className="bg-buttoncolor  hover:bg-buttonhovercolor rounded-sm p-1 "
+                    onClick={() => copyToClipboard(note.files)}
+                  >
+                    <FaShareAlt size="16" color="white" />
+                  </button>
+                </div>
               </div>
             ))
           ) : searchStatus === "Not-Found" ? (
