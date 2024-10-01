@@ -1,6 +1,6 @@
 
 const express = require("express");
-const { uploadNote, getNote, getNoteByID, getAllNotes } = require("../Controllers/NotesController");
+const { uploadNote, getNote, getNoteByID, getAllNotes ,deleteNote} = require("../Controllers/NotesController");
 console.log({ uploadNote, getNote, getNoteByID, getAllNotes });
 
 const multer = require("multer");
@@ -12,5 +12,5 @@ router.post("/upload", upload.single("file"), uploadNote); // File upload
 router.get("/search", getNote); // Search notes
 router.get("/user/:id", getNoteByID); // Get notes by user ID
 router.get("/all", getAllNotes); // Get all notes
-
+router.delete('/:noteId',deleteNote);
 module.exports = router;

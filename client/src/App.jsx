@@ -14,6 +14,7 @@ import UniversalLoader from './components/UniversalLoader';
 import Error from './components/Error';
 import { setUserData, setLoading, setError } from './Redux/slices/user-slice';
 import './App.css';
+import NotesEditor from './components/NotesEditor';
 
 const App = () => {
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
@@ -62,7 +63,8 @@ const App = () => {
           <Route path="/home" element={isAuthenticated ? <Home /> : <Navigate to="/login" />} />
           <Route path="/upload" element= {<Upload /> }/>
           <Route path="/profile" element= {<Profile />} />
-          <Route path="/search" element= {<Search/> }/>         
+          <Route path="/search" element= {<Search/> }/> 
+          <Route path="/editor" element={<NotesEditor />} />        
           <Route path="*" element={<Error />} />
         </Routes>
       </Router>
