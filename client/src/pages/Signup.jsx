@@ -72,9 +72,9 @@ const Signup = () => {
   };
   
   return (
-    <div className="flex w-full items-center h-screen justify-center bg-primarybg text-textcolor">
+    <div className="flex w-full items-center h-screen justify-center bg-primarybg text-textcolor ">
       <form
-        className="flex h-full w-full max-w-[420px] flex-col gap-3 bg-transparent p-5"
+        className="flex h-full w-full max-w-[420px] flex-col gap-3 bg-transparent p-5 border"
         onSubmit={registerUser}
       >
         <h1 className="text-2xl font-black">Register</h1>
@@ -143,7 +143,7 @@ const Signup = () => {
           <textarea
             id="userBio"
             name="userBio"
-            rows="3"
+            rows="1"
             className="mt-1 w-full rounded-md border p-2 focus:border-blue-500 focus:outline-none bg-transparent"
             placeholder="Tell us something about yourself"
             required

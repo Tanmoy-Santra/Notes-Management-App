@@ -24,11 +24,12 @@ const Login = () => {
       const response = await axios.post(`${import.meta.env.VITE_API_URL}/auth/login`, {
         userEmail,
         userPassword,
-      });   
-     
-      dispatch(setUserData(response.data));      
-      navigate("/home"); // Correct navigation call
-      alert("Logged in Successfully")
+      });        
+      dispatch(setUserData(response.data));            
+      alart(response.data.message)  
+      
+        navigate("/home");
+
     } catch (error) {
       // Log and handle error
       console.error("Cannot Login the User: ", error);
@@ -42,7 +43,7 @@ const Login = () => {
   return (
     <div className="flex w-full h-screen items-center justify-center p-5 m-auto bg-primarybg text-center">
       <form
-        className="flex flex-col w-full max-w-[420px] gap-4 rounded-xl bg-primarybg text-textcolor p-5 shadow-xl "
+        className="flex flex-col w-full max-w-[420px] gap-4 rounded-xl bg-primarybg text-textcolor p-5 shadow-xl border"
         onSubmit={loginUser}
       >
         <h1 className="text-2xl font-bold">Login</h1>

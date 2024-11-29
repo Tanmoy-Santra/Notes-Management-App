@@ -36,74 +36,193 @@ const NotesEditor = () => {
   };
 
   // Function to create a PDF from the plain text content
-  const createPdfFromContent = (content, filename = "note.pdf") => {
-    const doc = new jsPDF();
+  // const createPdfFromContent = (content, filename = "note.pdf") => {
+  //   const doc = new jsPDF();
 
-    // Add the stripped content to the PDF
-    doc.text(content, 10, 10);
+  //   // Add the stripped content to the PDF
+  //   doc.text(content, 10, 10);
 
-    // Create a Blob from the PDF output and return it as a File
-    const pdfBlob = doc.output("blob");
-    return new File([pdfBlob], filename, { type: "application/pdf" });
+  //   // Create a Blob from the PDF output and return it as a File
+  //   const pdfBlob = doc.output("blob");
+  //   return new File([pdfBlob], filename, { type: "application/pdf" });
+  // };
+  const createPdfFromContent = async (htmlContent, filename = "note.pdf") => {
+    try {
+console.log("htmlcontent",htmlContent);
+
+      const doc = new jsPDF();
+  
+      // Define CSS styles to support better formatting
+      const inlineCSS = `
+      body {
+        font-family: Arial, sans-serif;
+        font-size: 12px;
+        color: #000;
+      }
+      h1, h2, h3, h4, h5, h6 {
+        font-weight: bold;
+        margin: 10px 0;
+      }
+      h1 { font-size: 18px; }
+      h2 { font-size: 16px; }
+      h3 { font-size: 14px; }
+      ul, ol {
+        margin: 10px 0;
+        padding-left: 20px;
+      }
+      ul {
+        list-style-type: disc;
+      }
+      ol {
+        list-style-type: decimal;
+      }
+      li {
+        margin-bottom: 5px;
+      }
+      strong {
+        font-weight: bold;
+      }
+      em {
+        font-style: italic;
+      }
+      a {
+        color: blue;
+        text-decoration: underline;
+      }
+    `;
+  
+      // Wrap the content with the style tag for inline styling
+      const styledHtmlContent = `
+        <style>${inlineCSS}</style>
+        ${htmlContent}
+      `;
+  
+      // Use jsPDF's `html` method to render content with styles
+      await doc.html(styledHtmlContent, {
+        callback: function (doc) {         
+          
+          console.log("PDF with hyperlinks generated");
+        },
+        x: 10,
+        y: 10,
+        width: 180, // Page width in mm
+        windowWidth: 900, // Width of the content in pixels
+      });
+  
+      // Generate the PDF Blob
+      const pdfBlob = doc.output("blob");
+  
+      // Convert the Blob into a File object
+      return new File([pdfBlob], filename, { type: "application/pdf" });
+    } catch (error) {
+      console.error("Error rendering PDF:", error);
+      throw new Error("Failed to create PDF");
+    }
   };
+  
+  // const submitFile = async (e) => {
+  //   e.preventDefault();
+  //   setIsLoading(true); // Show loader or change button text
 
+  //   try {
+  //     // Strip the HTML tags from the editor content to get plain text
+  //     const plainTextContent = stripHtmlTags(editorContent);
+
+  //     // Convert the plain text content to a PDF file
+  //     const notePdfFile = createPdfFromContent(plainTextContent, `${title || "note"}.pdf`);
+
+  //     // Create FormData object to handle file upload and other form data
+  //     const formData = new FormData();
+  //     formData.append("title", title);
+  //     formData.append("description", description);
+  //     formData.append("tags", tags);
+  //     formData.append("file", notePdfFile); // Append the generated PDF file
+  //     formData.append("userId", userId);
+
+  //     console.log(formData); // Debugging log for formData
+
+  //     // Make the POST request to your API endpoint
+  //     const result = await axios.post(
+  //       `${import.meta.env.VITE_API_URL}/notes/upload`, // Upload API endpoint
+  //       formData,
+  //       {
+  //         headers: {
+  //           "Content-Type": "multipart/form-data", // Ensure correct content type for file upload
+  //         },
+  //       }
+  //     );
+
+  //     console.log("Upload response: ", result); // Log the response for debugging
+
+  //     // Check if the response status indicates success
+  //     if (result.status === 201) {
+  //       toast.success("Notes Uploaded Successfully.");
+  //     } else {
+  //       toast.error("Failed to upload notes.");
+  //     }
+
+  //     // Clear the form fields after successful upload
+  //     setTitle("");
+  //     setDescription("");
+  //     setTags("");
+  //     setEditorContent(""); // Clear the editor content
+
+  //     // Navigate to another route (e.g., notes listing or upload confirmation page)
+  //     navigate("/editor");
+  //   } catch (error) {
+  //     console.log("Failed to submit file: ", error); // Log any errors that occur during the upload
+  //     toast.error("Failed to submit file!"); // Show error notification
+  //   } finally {
+  //     setIsLoading(false); // Reset the loading state once the process completes
+  //   }
+  // };
   const submitFile = async (e) => {
     e.preventDefault();
-    setIsLoading(true); // Show loader or change button text
-
+    setIsLoading(true);
+  
     try {
-      // Strip the HTML tags from the editor content to get plain text
-      const plainTextContent = stripHtmlTags(editorContent);
-
-      // Convert the plain text content to a PDF file
-      const notePdfFile = createPdfFromContent(plainTextContent, `${title || "note"}.pdf`);
-
-      // Create FormData object to handle file upload and other form data
+      const notePdfFile = await createPdfFromContent(editorContent, `${title || "note"}.pdf`);
+  
       const formData = new FormData();
       formData.append("title", title);
       formData.append("description", description);
       formData.append("tags", tags);
-      formData.append("file", notePdfFile); // Append the generated PDF file
+      formData.append("file", notePdfFile);
       formData.append("userId", userId);
-
-      console.log(formData); // Debugging log for formData
-
-      // Make the POST request to your API endpoint
+  
+      // Debugging: Log FormData
+      for (let pair of formData.entries()) {
+        console.log(`${pair[0]}:`, pair[1]);
+      }
+  
       const result = await axios.post(
-        `${import.meta.env.VITE_API_URL}/notes/upload`, // Upload API endpoint
+        `${import.meta.env.VITE_API_URL}/notes/upload`,
         formData,
         {
           headers: {
-            "Content-Type": "multipart/form-data", // Ensure correct content type for file upload
+            "Content-Type": "multipart/form-data",
           },
         }
       );
-
-      console.log("Upload response: ", result); // Log the response for debugging
-
-      // Check if the response status indicates success
+  
       if (result.status === 201) {
-        toast.success("Notes Uploaded Successfully.");
+        toast.success("Notes uploaded successfully");
       } else {
         toast.error("Failed to upload notes.");
       }
-
-      // Clear the form fields after successful upload
-      setTitle("");
-      setDescription("");
-      setTags("");
-      setEditorContent(""); // Clear the editor content
-
-      // Navigate to another route (e.g., notes listing or upload confirmation page)
-      navigate("/editor");
     } catch (error) {
-      console.log("Failed to submit file: ", error); // Log any errors that occur during the upload
-      toast.error("Failed to submit file!"); // Show error notification
+      console.error("Failed to submit file:", error);
+  
+      if (error.response) {
+        console.error("Server Response:", error.response.data);
+      }
+  
+      toast.error("Failed to submit file!");
     } finally {
-      setIsLoading(false); // Reset the loading state once the process completes
+      setIsLoading(false);
     }
   };
-
+  
   return (
     <div className="p-6">
       <Navbar />
