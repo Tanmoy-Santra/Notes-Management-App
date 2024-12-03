@@ -19,8 +19,7 @@ const userSchema = mongoose.Schema({
     },
     userBio: {
         type: String,
-        required: true,
-        unique: true,
+        required: true,       
     },
     userEmail: {
         type: String,

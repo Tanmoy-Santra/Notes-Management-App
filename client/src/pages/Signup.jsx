@@ -49,19 +49,22 @@ const Signup = () => {
         },
       });
       console.log(result);
-      
+      if(result.status===201){        
+        toast.success(result.data.message);              
+          navigate("/login");
+        
+      }else if(result.status===400){
+        toast.error("user already exsist");
+      }
   
       // On successful registration
-      alert("User registered successfully");
-            
-        navigate("/login");
-      
     } catch (error) {
       // Log the error details to the console
       console.error("Error in signup:", error);
   
       // Show an error message to the user
       if (error.response && error.response.data) {
+        
         toast.error(`Failed to register: ${error.response.data.message}`);
       } else {
         toast.error("Failed to register. Please try again later.");

@@ -25,8 +25,11 @@ const Login = () => {
         userEmail,
         userPassword,
       });        
-      dispatch(setUserData(response.data));            
-      alart(response.data.message)  
+      dispatch(setUserData(response.data)); 
+      if(response.status===200){        
+        toast.success(response.data.message) ;
+        console.log(response.data.message);         
+      }      
       
         navigate("/home");
 
@@ -83,7 +86,7 @@ const Login = () => {
           </Link>
         </div>
       </form>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
     </div>
   );
 };

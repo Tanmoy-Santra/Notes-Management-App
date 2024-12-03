@@ -46,12 +46,10 @@ const UploadNote = () => {
       );
   
       console.log("Upload response: ", result); // Log the response
-      console.log(result.status);
-      
-  
-      // Ensure the response is successful
+      console.log(result.status);   
       if (result.status === 201) {
         toast.success("Notes Uploaded Successfully..");
+        navigate("/profile");
       } else {
         toast.error("Failed to upload notes.");
       }
@@ -64,7 +62,7 @@ const UploadNote = () => {
       setFileName(''); // Clear file name state
   
       // Navigate after successful upload
-      navigate("/upload");
+     
     } catch (error) {
       console.log("Failed to submit file: ", error);
       toast.error("Failed to submit file !!");

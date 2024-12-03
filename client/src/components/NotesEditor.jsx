@@ -112,7 +112,7 @@ console.log("htmlcontent",htmlContent);
       // Generate the PDF Blob
       const pdfBlob = doc.output("blob");
   
-      // Convert the Blob into a File object
+      // Convert the Blob into a File object     
       return new File([pdfBlob], filename, { type: "application/pdf" });
     } catch (error) {
       console.error("Error rendering PDF:", error);
@@ -207,6 +207,7 @@ console.log("htmlcontent",htmlContent);
   
       if (result.status === 201) {
         toast.success("Notes uploaded successfully");
+        navigate('/profile');
       } else {
         toast.error("Failed to upload notes.");
       }

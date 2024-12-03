@@ -298,7 +298,7 @@ const Navbar = () => {
   const handleLogout = () => {
     localStorage.removeItem('authToken');
     dispatch(removeUserData());
-    alert("Press ok for Log out");
+    toast.success("you have successfully logged out!");
     navigate("/");
   };
 

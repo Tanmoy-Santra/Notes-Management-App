@@ -222,7 +222,7 @@ const Profile = () => {
 
       // Remove the deleted note from the state
       setUserFiles((prevFiles) => prevFiles.filter((file) => file._id !== fileId));
-      toast.success("Note deleted successfully!");
+     toast.success("File deleted successfully");
     } catch (error) {
       toast.error("Error deleting note");
       console.error("Error deleting file:", error);
