@@ -1,5 +1,5 @@
 <div align="center">
-  <h1><strong><a href="https://notes-management-app-beige.vercel.app/">MyNotes App</a></strong></h1>
+  <h1><strong><a href="https://notes-management-app-drqo.vercel.app/">MyNotes App</a></strong></h1>
 </div>
   
 # Notes Management App
