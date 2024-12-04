@@ -1,5 +1,5 @@
 <div align="center">
-  <h1><strong><a href="https://notes-management-app-beige.vercel.app/">MyNotes App</a></strong></h1>
+  <h1><strong><a href="https://notes-management-app-drqo.vercel.app/">MyNotes App</a></strong></h1>
 </div>
   
 # Notes Management App
@@ -10,7 +10,7 @@ This is a full-stack Notes Management application built using the MERN stack. Th
 - Include Login Signup Authentication .
 - With organized Data storage system .
 
-# [Demo ](https://notes-management-app-beige.vercel.app/profile)
+# [Demo ](https://notes-management-app-drqo.vercel.app/)
 
 
 ![WhatsApp Image 2024-09-20 at 21 23 18_11722af3](https://github.com/user-attachments/assets/4d7ced00-c8b7-4de3-8bf9-d714ca18fb38)
