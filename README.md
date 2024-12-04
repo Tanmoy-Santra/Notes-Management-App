@@ -35,6 +35,78 @@ Make sure you have the following installed:
 
 git clone https://github.com/Tanmoy-Santra/Notes-Management-App
 
+# Project Dependencies
+
+This document provides an overview of all the dependencies used in the backend and frontend projects along with their descriptions.
+
+---
+
+## Backend Dependencies
+
+### Dependencies
+
+| Dependency       | Version   | Description                                                                                 |
+|-------------------|-----------|---------------------------------------------------------------------------------------------|
+| `bcrypt`         | ^5.1.1    | A library to help you hash passwords securely.                                              |
+| `body-parser`    | ^1.20.2   | Middleware to parse incoming request bodies in a middleware before handling them.           |
+| `cloudinary`     | ^2.4.0    | A library for uploading, managing, and transforming images and videos in the cloud.         |
+| `cors`           | ^2.8.5    | Middleware to enable Cross-Origin Resource Sharing (CORS) in Express apps.                 |
+| `dotenv`         | ^16.4.5   | Loads environment variables from a `.env` file into `process.env`.                         |
+| `express`        | ^4.19.2   | A fast, unopinionated, minimalist web framework for Node.js.                                |
+| `firebase`       | ^10.13.0  | Firebase client SDK to access Firebase services like authentication and Firestore.          |
+| `firebase-admin` | ^12.4.0   | Firebase Admin SDK to interact with Firebase services from privileged environments.         |
+| `gridfs-stream`  | ^1.1.1    | Stream large files to MongoDB GridFS.                                                      |
+| `jsonwebtoken`   | ^9.0.2    | A library to generate and verify JSON Web Tokens (JWTs).                                   |
+| `mongodb`        | ^6.8.0    | MongoDB driver for Node.js, allowing interaction with MongoDB databases.                   |
+| `mongoose`       | ^8.3.4    | MongoDB object modeling for Node.js.                                                       |
+| `multer`         | ^1.4.5-lts.1 | Middleware for handling multipart/form-data for file uploads.                              |
+| `nodemon`        | ^3.1.4    | A utility that monitors for file changes and automatically restarts the server.            |
+| `react-toastify` | ^10.0.5   | Library for creating notifications in React (for handling API notifications).              |
+
+---
+
+## Frontend Dependencies
+
+### Dependencies
+
+| Dependency           | Version   | Description                                                                                 |
+|-----------------------|-----------|---------------------------------------------------------------------------------------------|
+| `@heroicons/react`   | ^2.1.5    | A library of SVG icons for React.                                                           |
+| `@reduxjs/toolkit`   | ^2.1.0    | Official, opinionated, and powerful toolkit for Redux.                                      |
+| `axios`              | ^1.6.7    | Promise-based HTTP client for making API requests.                                          |
+| `firebase`           | ^10.13.0  | Firebase client SDK for accessing Firebase services.                                        |
+| `html2canvas`        | ^1.4.1    | Library for converting HTML elements into a canvas.                                         |
+| `jspdf`              | ^2.5.2    | A library to generate PDF documents in the browser.                                         |
+| `react`              | ^18.2.0   | A JavaScript library for building user interfaces.                                          |
+| `react-dom`          | ^18.2.0   | Provides DOM-specific methods for React.                                                   |
+| `react-icons`        | ^5.0.1    | A library of popular icons as React components.                                            |
+| `react-modal`        | ^3.16.1   | Accessible modal dialog component for React.                                               |
+| `react-quill`        | ^2.0.0    | A React wrapper for the Quill rich-text editor.                                            |
+| `react-redux`        | ^9.1.0    | Official React bindings for Redux.                                                         |
+| `react-router-dom`   | ^6.22.0   | A declarative routing library for React.                                                   |
+| `react-toastify`     | ^10.0.5   | A library for creating and displaying notifications in React.                              |
+
+### DevDependencies
+
+| Dependency                    | Version   | Description                                                                                 |
+|-------------------------------|-----------|---------------------------------------------------------------------------------------------|
+| `@types/react`               | ^18.2.43  | TypeScript type definitions for React.                                                     |
+| `@types/react-dom`           | ^18.2.17  | TypeScript type definitions for React DOM.                                                 |
+| `@vitejs/plugin-react`       | ^4.2.1    | Official Vite plugin for React.                                                            |
+| `autoprefixer`               | ^10.4.17  | PostCSS plugin to parse CSS and add vendor prefixes.                                       |
+| `eslint`                     | ^8.55.0   | A tool for identifying and fixing JavaScript code issues.                                  |
+| `eslint-plugin-react`        | ^7.33.2   | ESLint plugin for React-specific linting rules.                                            |
+| `eslint-plugin-react-hooks`  | ^4.6.0    | ESLint plugin for React hooks-specific linting rules.                                      |
+| `eslint-plugin-react-refresh`| ^0.4.5    | ESLint plugin for React Fast Refresh.                                                      |
+| `postcss`                    | ^8.4.33   | A tool to transform CSS with JavaScript plugins.                                           |
+| `prettier`                   | ^3.2.5    | A code formatter for consistent style.                                                     |
+| `prettier-plugin-tailwindcss`| ^0.5.11   | Prettier plugin for sorting Tailwind CSS classes.                                          |
+| `tailwindcss`                | ^3.4.1    | A utility-first CSS framework for styling.                                                 |
+| `vite`                       | ^5.0.8    | A fast development build tool for modern web projects.                                     |
+
+---
+
+
 ### Run the project
 
 cd Notes-Management-App
