@@ -18,6 +18,7 @@ const NotesEditor = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [tags, setTags] = useState("");
+  const [isPublic, setIsPublic] = useState(false);
   const [isLoading, setIsLoading] = useState(false); // Loading state for submission
 
   const user = useSelector((state) => state.user.userData);
@@ -35,17 +36,7 @@ const NotesEditor = () => {
     return tempDiv.textContent || tempDiv.innerText || "";
   };
 
-  // Function to create a PDF from the plain text content
-  // const createPdfFromContent = (content, filename = "note.pdf") => {
-  //   const doc = new jsPDF();
-
-  //   // Add the stripped content to the PDF
-  //   doc.text(content, 10, 10);
-
-  //   // Create a Blob from the PDF output and return it as a File
-  //   const pdfBlob = doc.output("blob");
-  //   return new File([pdfBlob], filename, { type: "application/pdf" });
-  // };
+  
   const createPdfFromContent = async (htmlContent, filename = "note.pdf") => {
     try {
 console.log("htmlcontent",htmlContent);
@@ -120,63 +111,7 @@ console.log("htmlcontent",htmlContent);
     }
   };
   
-  // const submitFile = async (e) => {
-  //   e.preventDefault();
-  //   setIsLoading(true); // Show loader or change button text
-
-  //   try {
-  //     // Strip the HTML tags from the editor content to get plain text
-  //     const plainTextContent = stripHtmlTags(editorContent);
-
-  //     // Convert the plain text content to a PDF file
-  //     const notePdfFile = createPdfFromContent(plainTextContent, `${title || "note"}.pdf`);
-
-  //     // Create FormData object to handle file upload and other form data
-  //     const formData = new FormData();
-  //     formData.append("title", title);
-  //     formData.append("description", description);
-  //     formData.append("tags", tags);
-  //     formData.append("file", notePdfFile); // Append the generated PDF file
-  //     formData.append("userId", userId);
-
-  //     console.log(formData); // Debugging log for formData
-
-  //     // Make the POST request to your API endpoint
-  //     const result = await axios.post(
-  //       `${import.meta.env.VITE_API_URL}/notes/upload`, // Upload API endpoint
-  //       formData,
-  //       {
-  //         headers: {
-  //           "Content-Type": "multipart/form-data", // Ensure correct content type for file upload
-  //         },
-  //       }
-  //     );
-
-  //     console.log("Upload response: ", result); // Log the response for debugging
-
-  //     // Check if the response status indicates success
-  //     if (result.status === 201) {
-  //       toast.success("Notes Uploaded Successfully.");
-  //     } else {
-  //       toast.error("Failed to upload notes.");
-  //     }
-
-  //     // Clear the form fields after successful upload
-  //     setTitle("");
-  //     setDescription("");
-  //     setTags("");
-  //     setEditorContent(""); // Clear the editor content
-
-  //     // Navigate to another route (e.g., notes listing or upload confirmation page)
-  //     navigate("/editor");
-  //   } catch (error) {
-  //     console.log("Failed to submit file: ", error); // Log any errors that occur during the upload
-  //     toast.error("Failed to submit file!"); // Show error notification
-  //   } finally {
-  //     setIsLoading(false); // Reset the loading state once the process completes
-  //   }
-  // };
-  const submitFile = async (e) => {
+    const submitFile = async (e) => {
     e.preventDefault();
     setIsLoading(true);
   
@@ -189,6 +124,7 @@ console.log("htmlcontent",htmlContent);
       formData.append("tags", tags);
       formData.append("file", notePdfFile);
       formData.append("userId", userId);
+      formData.append("isPublic", isPublic); 
   
       // Debugging: Log FormData
       for (let pair of formData.entries()) {
@@ -304,6 +240,28 @@ console.log("htmlcontent",htmlContent);
               className="mb-4 p-2 border rounded bg-gray-700 text-white"
               required
             />
+             <div className="m-3 flex inline gap-5 f-10 text-white">
+              <label className="flex items-center gap-2">
+                <input
+                  type="radio"
+                  name="visibility"
+                  value="public"
+                  checked={isPublic}
+                  onChange={() => setIsPublic(true)}
+                />
+                Public
+              </label>
+              <label className="flex items-center gap-2">
+                <input
+                  type="radio"
+                  name="visibility"
+                  value="private"
+                  checked={!isPublic}
+                  onChange={() => setIsPublic(false)}
+                />
+                Private
+              </label>
+            </div>
             <div className="flex justify-between">
               <button
                 type="button"

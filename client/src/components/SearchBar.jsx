@@ -23,10 +23,16 @@ const SearchBar = () => {
 
       const notes = response.data.data;
       if (notes.length > 0) {
-        setSearchResults(notes);
-        setSearchStatus("Found");
-        const userIds = notes.map((note) => note.uploadedBy);
-        await fetchUserNames(userIds);
+        const publicNotes = notes.filter(note => note.isPublic);
+        if(publicNotes.length>0){
+          setSearchResults(notes);
+          setSearchStatus("Found");
+          const userIds = notes.map((note) => note.uploadedBy);
+          await fetchUserNames(userIds);
+        }else{
+          setSearchResults([]);
+          setSearchStatus("Not-Found");
+        }
       } else {
         setSearchResults([]);
         setSearchStatus("Not-Found");
@@ -123,6 +129,7 @@ const SearchBar = () => {
                     <span className="text-gray-300 font-semibold text-sm">
                       {DateTimeExtraction(note.uploadedOn)}
                     </span>
+                    <span className="text-gray-300 font-semibold text-sm"> {note.isPublic ? "Public" : "Private"}</span>
                   </p>
                 </div>
                 <div className="flex gap-2 ">

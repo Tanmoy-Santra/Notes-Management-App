@@ -34,10 +34,13 @@ const NoteSchema = mongoose.Schema({
     },
     uploadedOn: {
     type: String, 
-    default:  defaultDate = () => getISTDateISOString()
-    , 
+    default:  defaultDate = () => getISTDateISOString(), 
     required: true,
 },
+isPublic: {
+    type: Boolean,
+    default: true, // Default visibility is public
+  },
 
 },
 {

@@ -208,7 +208,9 @@ const uploadNote = async (req, res) => {
     const fileDescription = req.body.description;
     const tags = req.body.tags;
     const uploadedBy = req.body.userId;
+    const isPublic = req.body.isPublic === "true";
     const file = req.file;
+    
 
     if (!file) {
       return res.status(400).json({ error: "No file uploaded" });
@@ -242,7 +244,8 @@ const uploadNote = async (req, res) => {
           fileDescription: fileDescription,
           tags: tags,
           files: publicUrl,  // Store the public Firebase file URL in MongoDB
-          uploadedBy: uploadedBy
+          uploadedBy: uploadedBy,
+          isPublic: isPublic,
         });
 
         await newFile.save();
@@ -289,8 +292,15 @@ const deleteNote = async (req, res) => {
 // Get Note Route
 const getNote = async (req, res) => {
   try {
-    const { title, tag } = req.query;
+    const { title, tag ,visibility,userId} = req.query;
     const query = {};
+
+    if (visibility === "public") {
+      query.isPublic = true;
+    } else if (visibility === "private" && userId) {
+      query.uploadedBy = userId;
+      query.isPublic = false;
+    }
 
     if (title) {
       query.fileName = { $regex: title, $options: "i" };

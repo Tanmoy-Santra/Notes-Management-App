@@ -77,10 +77,11 @@ const Dashboard = () => {
         });
 
         console.log(result.data);
-        setUserFiles(result.data.data);
+        const publicFiles = result.data.data.filter(file => file.isPublic);
 
+        setUserFiles(publicFiles);
         // Fetch user names based on uploadedBy IDs
-        const userIds = result.data.data.map(file => file.uploadedBy);
+        const userIds = publicFiles.map(file => file.uploadedBy);
         fetchUserNames(userIds);
 
       } catch (error) {
@@ -111,7 +112,10 @@ const Dashboard = () => {
         <div className="h-auto w-full lg:h-full lg:w-[60%]">
           <h1 className="ml-3 mb-3 text-xl font-black">All Notes</h1>
           <div className="grid grid-cols-1 gap-5 p-4 sm:grid-cols-2 md:grid-cols-3">
-            {userFiles.map((file) => (
+            {userFiles.length === 0 ? (
+              <div className="text-center text-gray-600">No public files available.</div>
+            ) : (
+              userFiles.map((file) => (
               <div
                 key={file._id}
                 className="relative mb-3 flex h-auto max-w-[300px] items-center justify-between gap-10 rounded-xl border border-black p-4 bg-buttoncolor text-textcolor"
@@ -130,6 +134,7 @@ const Dashboard = () => {
                     <span className="text-gray-300 font-semibold text-sm">{file.fileDescription}</span>
                     <span className="text-gray-300 font-semibold text-sm">Created By: {userNames[file.uploadedBy] || "Unknown User"}</span>
                     <span className="text-gray-300 font-semibold text-sm">{DateTimeExtraction(file.uploadedOn)}</span>
+                    <span className="text-gray-300 font-semibold text-sm"> {file.isPublic ? "Public" : "Private"}</span>
                   </div>
                 </a>
                 {/* Share icon in the top right corner */}
@@ -147,7 +152,7 @@ const Dashboard = () => {
                   <FaDownload size={20} />
                 </button>
               </div>
-            ))}
+            )))}
           </div>
         </div>
       </div>

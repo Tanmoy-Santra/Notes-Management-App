@@ -17,6 +17,7 @@ const UploadNote = () => {
   const [tags, setTags] = useState("");
   const [file, setFile] = useState(null);
   const [fileName, setFileName] = useState(""); // State for file name
+  const [isPublic, setIsPublic] = useState(true); 
 
   const user = useSelector((state) => state.user.userData);
   const userId = user?._id;
@@ -32,6 +33,7 @@ const UploadNote = () => {
       formData.append("tags", tags);
       formData.append("file", file);
       formData.append("userId", userId);
+      formData.append("isPublic", isPublic);
   
       console.log(formData);
   
@@ -97,7 +99,7 @@ const UploadNote = () => {
           onChange={(e) => setDescription(e.target.value)}
           className="block w-full rounded-lg border border-white bg-transparent text-textcolor p-2.5 text-sm text-gray-900 focus:border-white focus:ring-blue-500"
         />
-      </div>
+      </div>  
       <div className="mb-5 w-full max-w-[550px]">
         <input
           type="text"
@@ -153,6 +155,28 @@ const UploadNote = () => {
           Selected File: <span className="font-bold">{fileName}</span>
         </div>
       )}
+      <div className="m-5 flex inline gap-5 f-10">
+        <label className="flex items-center gap-2">
+          <input
+            type="radio"
+            name="visibility"
+            value="public"
+            checked={isPublic}
+            onChange={() => setIsPublic(true)}
+          />
+          Public
+        </label>
+        <label className="flex items-center gap-2">
+          <input
+            type="radio"
+            name="visibility"
+            value="private"
+            checked={!isPublic}
+            onChange={() => setIsPublic(false)}
+          />
+          Private
+        </label>
+      </div>
       <button
         className="my-5 w-full max-w-[550px] rounded-xl bg-buttoncolor py-3 font-bold text-white hover:bg-buttonhovercolor"
         type="submit"

@@ -283,6 +283,7 @@ const Profile = () => {
                     <span className="text-gray-300 font-semibold text-sm">
                       {DateTimeExtraction(file.uploadedOn)}
                     </span>
+                    <span className="text-gray-300 font-semibold text-sm">{file.isPublic?'Public':'Private'}</span>
                   </p>
                 </a>
                 {/* Share icon in the top right corner */}
