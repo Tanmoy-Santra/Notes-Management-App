@@ -9,26 +9,26 @@ function getISTDateISOString() {
   console.log(getISTDateISOString());
   
 const userSchema = mongoose.Schema({
-    firstName: {
-        type: String,
-        required: true,
-    },
-    lastName: {
-        type: String,
-        required: true,
-    },
-    userBio: {
-        type: String,
-        required: true,       
-    },
+    // firstName: {
+    //     type: String,
+    //     required: true,
+    // },
+    // lastName: {
+    //     type: String,
+    //     required: true,
+    // },
+    // userBio: {
+    //     type: String,
+    //     required: true,       
+    // },
     userEmail: {
         type: String,
         required: true,
     },
-    userMobile: {
-        type: Number,
-        required: true,
-    },
+    // userMobile: {
+    //     type: Number,
+    //     required: true,
+    // },
     userName: {
         type: String,
         required: true,
@@ -38,8 +38,7 @@ const userSchema = mongoose.Schema({
         required: true,
     },
     profileImage: {
-        type: String,
-       
+        type: String,       
         required: true,
     },
     logedInOn :{       

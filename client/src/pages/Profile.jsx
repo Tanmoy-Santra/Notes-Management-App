@@ -247,9 +247,9 @@ const Profile = () => {
           </div>
           <div className="my-2 flex flex-col items-center justify-center">
             <h2 className="text-2xl font-black">
-              {user.firstName} {user.lastName}
+              {user.userName}
             </h2>
-            <p className="mt-1 text-center">{user.userName}</p>
+            <p className="mt-1 text-center">{user.userEmail}</p>
             <p className="mt-1 text-center">
               {user.userBio}
             </p>

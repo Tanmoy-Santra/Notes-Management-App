@@ -8,6 +8,7 @@ import { setUserData } from "../Redux/slices/user-slice";
 import { toast,ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import UniversalLoader from "../components/UniversalLoader";
 
 const Login = () => {
@@ -16,6 +17,7 @@ const Login = () => {
   const [isLoading,setIsLoading]=useState(false);
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
+  const [passwordVisible, setPasswordVisible] = useState(false); 
   // const [isLoading, setIsLoading] = useState(true);
   const loginUser = async (e) => {
     e.preventDefault();
@@ -63,10 +65,11 @@ const Login = () => {
               required
             />
           </div>
-          <div className="flex flex-col items-start justify-center w-full">
+         
+          <div className="flex flex-col items-start justify-center w-full relative">
             <label className="font-bold" htmlFor="userPassword">Password</label>
             <input
-              type="password"
+              type={passwordVisible ? "text" : "password"} // Toggle between text and password
               id="userPassword"
               name="userPassword"
               className="w-full rounded-lg border border-white p-2 focus:ring focus:ring-blue-500 bg-transparent"
@@ -74,6 +77,12 @@ const Login = () => {
               onChange={(e) => setUserPassword(e.target.value)}
               required
             />
+            <div
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer mt-3"
+              onClick={() => setPasswordVisible(!passwordVisible)} // Toggle visibility on click
+            >
+              {passwordVisible ? <FaEyeSlash size={20} /> : <FaEye size={20} />}
+            </div>
           </div>
         </div>
         <button className="rounded-lg bg-buttoncolor px-5 py-2 font-bold text-white hover:bg-buttonhovercolor w-full" type="submit">

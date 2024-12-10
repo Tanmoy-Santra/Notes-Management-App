@@ -152,13 +152,80 @@ const bufferToStream = (buffer) => {
 };
 
 // Signup Route
+// const signup = async (req, res) => {
+//   try {
+//     const { firstName, lastName, userBio, userEmail, userMobile, userName, userPassword } = req.body;
+
+//     // Ensure all required fields are provided
+//     if (!firstName || !lastName || !userBio || !userEmail || !userMobile || !userName || !userPassword) {
+//       return res.status(400).json({ message: "All fields are required" });
+//     }
+
+//     // Check if the email is already in use
+//     const existingUser = await User.findOne({ userEmail });
+//     if (existingUser) {
+//       return res.status(400).json({ message: "Email is already in use" });
+//     }
+
+//     const hashedPassword = await bcrypt.hash(userPassword, 10);
+
+//     let profileImageUrl = "";
+//     if (req.file && req.file.buffer) {
+//       profileImageUrl = await new Promise((resolve, reject) => {
+//         const fileName = `profile_images/${Date.now()}_${req.file.originalname}`;
+//         const uploadStream = bucket.file(fileName).createWriteStream({
+//           metadata: {
+//             contentType: req.file.mimetype,
+//           },
+//         });
+
+//         uploadStream.on("error", (error) => {
+//           console.error("Firebase Storage upload error:", error);
+//           reject(error);
+//         });
+
+//         uploadStream.on("finish", () => {
+//           bucket.file(fileName).getSignedUrl({
+//             action: "read",
+//             expires: "03-09-2491",
+//           }).then((signedUrls) => {
+//             resolve(signedUrls[0]);
+//           }).catch((error) => {
+//             console.error("Error getting signed URL:", error);
+//             reject(error);
+//           });
+//         });
+
+//         bufferToStream(req.file.buffer).pipe(uploadStream);
+//       });
+//     }
+
+//     const newUser = new User({
+//       firstName,
+//       lastName,
+//       userBio,
+//       userEmail,
+//       userMobile,
+//       userName,
+//       userPassword: hashedPassword,
+//       profileImage: profileImageUrl,
+//     });
+
+//     await newUser.save();
+//     res.status(201).json({ message: "User registered successfully" });
+//   } catch (error) {
+//     console.error("Error in signup:", error.message);  // Log the error message
+//     res.status(500).json({ message: "Server error" });
+//   }
+// };
+
 const signup = async (req, res) => {
   try {
-    const { firstName, lastName, userBio, userEmail, userMobile, userName, userPassword } = req.body;
+    const { userEmail, userPassword } = req.body;
 
-    // Ensure all required fields are provided
-    if (!firstName || !lastName || !userBio || !userEmail || !userMobile || !userName || !userPassword) {
-      return res.status(400).json({ message: "All fields are required" });
+    // Ensure required fields are provided
+    if (!userEmail || !userPassword) {
+      return res.status(400).json({ message: "Email and password are required" });
     }
 
     // Check if the email is already in use
@@ -167,8 +234,10 @@ const signup = async (req, res) => {
       return res.status(400).json({ message: "Email is already in use" });
     }
 
+    // Hash the password
     const hashedPassword = await bcrypt.hash(userPassword, 10);
 
+    // Handle profile image upload to Firebase
     let profileImageUrl = "";
     if (req.file && req.file.buffer) {
       profileImageUrl = await new Promise((resolve, reject) => {
@@ -185,39 +254,43 @@ const signup = async (req, res) => {
         });
 
         uploadStream.on("finish", () => {
-          bucket.file(fileName).getSignedUrl({
-            action: "read",
-            expires: "03-09-2491",
-          }).then((signedUrls) => {
-            resolve(signedUrls[0]);
-          }).catch((error) => {
-            console.error("Error getting signed URL:", error);
-            reject(error);
-          });
+          bucket
+            .file(fileName)
+            .getSignedUrl({
+              action: "read",
+              expires: "03-09-2491",
+            })
+            .then((signedUrls) => {
+              resolve(signedUrls[0]);
+            })
+            .catch((error) => {
+              console.error("Error getting signed URL:", error);
+              reject(error);
+            });
         });
 
         bufferToStream(req.file.buffer).pipe(uploadStream);
       });
     }
 
+    // Create new user
     const newUser = new User({
-      firstName,
-      lastName,
-      userBio,
       userEmail,
-      userMobile,
-      userName,
       userPassword: hashedPassword,
       profileImage: profileImageUrl,
+      userName: userEmail.split("@")[0],
     });
 
+    // Save user to database
     await newUser.save();
+
     res.status(201).json({ message: "User registered successfully" });
   } catch (error) {
-    console.error("Error in signup:", error.message);  // Log the error message
+    console.error("Error in signup:", error.message); // Log the error message
     res.status(500).json({ message: "Server error" });
   }
 };
+
 
 // Login Route
 const login = async (req, res) => {

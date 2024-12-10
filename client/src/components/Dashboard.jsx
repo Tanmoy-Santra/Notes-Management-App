@@ -4,8 +4,8 @@ import { FaRegFilePdf, FaShareAlt, FaDownload } from "react-icons/fa"; // Import
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
-import Header from '../components/Header';
-import Footer from "../components/Footer";
+// import Header from '../components/Header';
+// import Footer from "../components/Footer";
 import UniversalLoader from "./UniversalLoader";
 import { toast } from "react-toastify"; // Import toast for notifications
 
